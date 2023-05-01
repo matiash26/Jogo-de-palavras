@@ -1,4 +1,3 @@
-let index = 0
 let nextRow = 0
 let text = ""
 
@@ -30,18 +29,22 @@ async function writeInDisplay(word) {
 
     if (letters.includes(word)) {
         if (word !== "BACKSPACE" && word !== "ENTER") {
-            boxList[index].innerText = word
-            index < 4 ? index++ : index
+            const maxCaractere = wordLength === 5 ? wordLength - 1 : wordLength
+            //o length irá retornar 5 items da lista, porém a indice termina em 4, já que começa no 0, nisso eu preciso subtrair -1 caso chegue ao máximo
+            boxList[maxCaractere].innerText = word
+            
         } else if (word === "BACKSPACE") {
-            boxList[index].innerText = ""
-            index > 0 ? index-- : index
+            let notNegative = wordLength - 1 < 0 ? wordLength : wordLength - 1
+            //caso o numero de caracteres for menor que 0 pegue o valor atual, caso ao contrário decremente
+            //para que tenha o delete da palavra
+            boxList[notNegative].innerText = ""
+
         } else if (word === "ENTER" && wordLength === 5) {
             const response = await fetch("https://api.dicionario-aberto.net/word/" + wordFromDOM)
             const checkWord = await response.json()
             if (checkWord[0]) {
                 checkWordPosition(wordFromDOM, text, boxList)
                 nextRow += 5
-                index = 0
                 const releaseNexrRow = new Array(...box).splice(nextRow, 5)
                 for (let box of releaseNexrRow) {
                     box.classList.remove("blocked")
