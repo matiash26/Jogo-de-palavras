@@ -49,6 +49,8 @@ async function writeInDisplay(word) {
                 for (let box of releaseNexrRow) {
                     box.classList.remove("blocked")
                 }
+            }else {
+                title.innerText = "PALAVRA NÃO RECONHECIDA TENTE OUTRA"
             }
         }
     }
