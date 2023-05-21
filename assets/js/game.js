@@ -16,7 +16,7 @@ function randomWord() {
         "comer", "estar", "fazer",
         "saber", "garra", "santo",
         "pasto", "caixa", "perto", 
-        "praia", "quase", "querer", 
+        "praia", "quase",  
         "risos","sabor",  "solto"
     ];
     const choose = Math.floor(Math.random() * 20)
@@ -43,7 +43,7 @@ async function writeInDisplay(word) {
             const response = await fetch("https://api.dicionario-aberto.net/word/" + wordFromDOM)
             const checkWord = await response.json()
             if (checkWord[0]) {
-                checkWordPosition(wordFromDOM, text, boxList)
+                checkWordPosition(wordFromDOM, text, boxList, nextRow)
                 nextRow += 5
                 const releaseNexrRow = new Array(...box).splice(nextRow, 5)
                 for (let box of releaseNexrRow) {
@@ -68,9 +68,13 @@ function checkWordPosition(current, random, element, row) {
     const randomWord = random.split("")
     const currentWord = current.split("")
     if (randomWord.join("") === currentWord.join("")) {
-        title.innerText = `VOCÊ ACERTOU A PALAVRA ${text}`
-    } else if (row === 5 && randomWord.join("") !== currentWord.join("")) {
-        title.innerText = `VOCÊ ERROU A PALAVRA ERA ${text}`
+        title.innerText = `VOCÊ ACERTOU A PALAVRA ${text.toUpperCase()}`
+        removeEventListener("click",captureKeyboardDOM)
+        removeEventListener("keyup",captureKeyboard)
+    } else if (row === 25 && randomWord.join("") !== currentWord.join("")) {
+        title.innerText = `VOCÊ ERROU A PALAVRA ERA ${text.toUpperCase()}`
+        removeEventListener("click",captureKeyboardDOM)
+        removeEventListener("keyup",captureKeyboard)
     }
     for (let x = 0; x < randomWord.length; x++) {
         const keyDOMList = new Array(...keyboardDOM)
